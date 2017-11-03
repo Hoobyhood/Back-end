@@ -16,6 +16,7 @@ var userSchema = new Schema({
     },
     credit:{
         type:number
+        default : 0;
     }
     
 
