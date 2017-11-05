@@ -1,0 +1,13 @@
+//rest Schema
+,
+    credit:{
+        type:number,
+        default : 0
+    },
+    Age : number,
+    Name : String,
+    Image :{
+        Path : String
+    }
+
+    

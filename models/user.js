@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-   ID: number,
     username:{
         type:String,
-        unique:true
+        unique:true,
+        required:true
 
     },
     password:{
@@ -13,18 +13,7 @@ var userSchema = new Schema({
     },
     email:{
         type:String,
-        unique:true
-    },
-    credit:{
-        type:number,
-        default : 0
-    },
-    Age : number,
-    Name : String,
-    Image :{
-        Path : String
+        unique:true,
+        required:true
     }
-
-    
-
 });
