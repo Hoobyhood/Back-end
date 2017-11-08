@@ -4,10 +4,10 @@ var Hobbies = require('./Hobby.js');
 
 
 var userSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    //_id: Schema.Types.ObjectId,
     username:{
         type:String,
-        unique:true,
+        //unique:true,
         required:true
 
     },
@@ -16,7 +16,7 @@ var userSchema = new Schema({
     },
     email:{
         type:String,
-        unique:true,
+        //unique:true,
         required:true
     },
     Age : Number,
@@ -35,9 +35,9 @@ var userSchema = new Schema({
         contentType : String
     },
 
-    Hobbies :[{type: Schema.Types.ObjectId , ref : 'Hobbies'} ] 
+    //Hobbies :[{type: Schema.Types.ObjectId , ref : 'Hobbies'} ] 
     
 });
 
-var Users = mongoose.model('User', userSchema);
-module.exports = Users; 
+var User = mongoose.model('user', userSchema);
+module.exports = User; 

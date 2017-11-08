@@ -5,7 +5,9 @@ exports.list_users =function(req,res){
     User.find({},function(err,user){
         if(err)
             res.send(err);
-        res.json(user);
+        //res.json(user);
+        console.log('hi');
+        res.end();
     });
 };
 

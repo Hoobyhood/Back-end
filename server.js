@@ -1,20 +1,16 @@
-var express = require('express'),
-app = express(),
-mongoose= require('mongoose'),
-User = require('./models/user'),
-bodyParser = require('body-parser'),
-port = process.env.PORT || 3000;
+const express = require('express');
+const bodyParser =require('body-parser');
+const mongoose = require('mongoose');
+var port = process.env.PORT || 4000;
+var app = express();
 
+ mongoose.connect('mongodb://localhost/hobhod',useMongoClient = true);
 
-mongoose.Promise=global.Promise;
-mongoose.connect='mongod://localost/hobhod';
+ mongoose.Promise=global.Promise;
+//var promise = mongoose.connect('mongodb://localhost/hobhod',useMongoClient=true);
 
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json);
-
-var routes = require('./routes/users');
-
-
+app.use(bodyParser.json());
+app.use(require('./routes/users'));
 
 
 app.listen(port);
