@@ -8,3 +8,10 @@ npm install --save-dev nodemon
 Beshr - Packages : 
 
 npm install assert --save 
+
+___________________________
+9/11/2017
+
+npm remove mongoose
+npm install mongoose@4.10.8 --save
+_______________________________
