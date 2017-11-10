@@ -1,16 +1,15 @@
 const express = require('express');
 const bodyParser =require('body-parser');
 const mongoose = require('mongoose');
+var route =express();
 var port = process.env.PORT || 4000;
 var app = express();
 
- mongoose.connect('mongodb://localhost/hobhod',useMongoClient = true);
-
+ mongoose.createConnection('mongodb://localhost/hobhod',useMongoClient=true);
  mongoose.Promise=global.Promise;
-//var promise = mongoose.connect('mongodb://localhost/hobhod',useMongoClient=true);
 
-app.use(bodyParser.json());
-app.use(require('./routes/users'));
+ app.use(bodyParser.json());
+ app.use(require('./routes/users'));
 
 
 app.listen(port);

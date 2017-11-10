@@ -27,17 +27,13 @@ router
     res.send({"32":"b45"});
 })
 
-// .post('/hi',function(req,res){
-//     sign.create(req.body);
-// })
-
-
 .post('/mongo',function(req,res){
-    // user.create(req.body).then(function(user){
-    //     res.send(user);
-    // });
-    var usr = new user(req.body);
-    usr.save();
+    user.create(req.body).then(function(user){
+        res.send(user);
+    });
+    res.send({
+        type:"post",        
+    });
 });
 
 
