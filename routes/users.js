@@ -1,40 +1,22 @@
 var express = require("express");
-var router = express.Router();
-var user = require('../models/user.js');
-var sign = require('../models/sn.js');
-// module.exports =function(app){
-//     var user = require('../controllers/users');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var Users = require('../models/user.js');
+var userRouter = express.Router();
+userRouter.use(bodyParser.json());
+userRouter.route('/') 
 
-//     app.route('/users')
-//     //.get(user.list_users)
-//     .get(function(req,res){
-//         res.send({'ress':'hi'});
-//     })
-//     .post(user.create_user);
+.get(function (req, res, next) { 
+    console.log('get is getted');
+    res.json('Will send all the Profiles to you!');
+    
+    })
 
-//     app.route('/user/:userId')
-//     .get(user.read_user)
-//     .put(user.update_user);
-// }
-
-router
-.get('/',function(req,res){
-    res.send({'ji0':'bye'});
-})
-
-.post('/',function(req,res){
-    console.log(req.body);
-    res.send({"32":"b45"});
-})
-
-.post('/mongo',function(req,res){
-    user.create(req.body).then(function(user){
-        res.send(user);
-    });
-    res.send({
-        type:"post",        
-    });
-});
+.post(function (req, res, next) { 
+    console.log('post is posted');
+    res.json('Will add the Profile: ' + req.body.name + ' with details: ' + req.body 
+    .description);;
+}) 
 
 
-module.exports = router;
+module.exports = userRouter;

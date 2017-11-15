@@ -1,34 +1,25 @@
-var mongoose = require('mongoose'), 
-assert = require('assert'); 
-var Users = require('./models/user.js'); 
-// Connection URL 
-var url = 'mongodb://localhost:27017/conFusion'; 
-mongoose.connect(url); 
-var db = mongoose.connection; 
-db.on('error', console.error.bind(console, 'connection error:')); 
-db.once('open', function () { 
-// we're connected! 
-console.log("Connected correctly to server"); 
-// create a new user 
-var newUser = Users({ 
-    username: 'John', 
-    Password: 'j123456' ,
-    email : 'john.jones@gmail.com'
-    
-}); 
-console.log("USer Data was entered ");
-// save the user 
-newUser.save(function (err) { 
-    if (err) throw err; 
-    console.log('User created!'); 
-    // get all the users 
-    Users.find({}, function (err, users) { 
-        if (err) throw err; 
-        // object of all the users 
-        console.log(Users); 
-                    db.collection('Users').drop(function () { 
-            db.close(); 
-        }); 
-    }); 
-}); 
+var express = require('express');
+var path = require('path'); 
+var morgan = require('morgan');
+var bodyParser =require('body-parser'); 
+var favicon = require('serve-favicon'); 
+var cookieParser = require('cookie-parser'); 
+var routes = require('./routes/index');
+var userRouter = require('./routes/users');
+var hostname = 'localhost'; 
+var port = 4000;
+var app = express();
+
+app.set('views', path.join(__dirname, 'views')); 
+app.set('view engine', 'jade'); 
+ 
+app.use(morgan('dev')); 
+app.use('/', routes); 
+app.use('/users', userRouter);
+app.use(bodyParser.urlencoded({ extended: false })); 
+app.use(cookieParser()); 
+app.use(express.static(path.join(__dirname, 'public'))); 
+
+app.listen(port, hostname, function(){ 
+  console.log(`Hobby Hood Server running at http://${hostname}:${port}/`); 
 });
