@@ -19,7 +19,9 @@ var userSchema = new Schema({
         unique:true,
         required:true
     },
-    Age : Number,
+    Age :{
+        type : Number
+    } ,
     Rating :{
         type: Number,
         default : 5,

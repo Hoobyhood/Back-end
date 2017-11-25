@@ -4,20 +4,13 @@ var mongoose = require('mongoose'),
     assert = require('assert'); 
 var Users = require('../models/user.js');
 var Schema = mongoose.Schema;
-var userRouter = express.Router();
-userRouter.use(bodyParser.json());
+var usersRouter = express.Router();
+usersRouter.use(bodyParser.json());
 var MongoClient = require('mongodb').MongoClient;
 
-// Connection URL 
-var url = 'mongodb://localhost/HB';
-mongoose.connect(url,{useMongoClient:true});
 var db = mongoose.connection; 
-db.on('error', console.error.bind(console, 'connection error:')); 
-db.once('open', function () {console.log("Connected correctly to server"); });
     
-
-//var collection = db.collection('users');  
-userRouter.route('/') 
+usersRouter.route('/') 
 
 .get(function (req, res, next) { 
     console.log('get is getted');
@@ -31,11 +24,11 @@ userRouter.route('/')
     
     
     })
-
 .post(function (req, res, next) { 
     console.log('post is posted');
     //res.json('Will add the Profile: ' + req.body.username + ' with details: ' + req.body.Age);
-    var USER = new Users ({username:req.body.username ,password:req.body.password , Age:req.body });
+    var USER = new Users ({username:req.body.username ,password:req.body.password ,email:req.body.Email
+        ,Hobbies:req.body.Hobbies , Age:req.body.Age });
     console.log('Created USER');
     console.log(USER);
     db.collection('Users').insertOne({USER}, function(err, result) {
@@ -46,10 +39,30 @@ userRouter.route('/')
         
       });
 
-}) ;
+})
+.delete(function(req,res,next) {
+    console.log('delete is choosed');
+    db.collection('Users'),deleteOne({username:req.body.username}, function(err, result){
+        assert.equal(err, null); 
+        console.log("Removed the document " + req.body.username);
+    })
+
+
+});
+
+usersRouter.route('/:UserID' )
+.get(function(req , res,next ){
+    db.collection('Users').find({Name:req.params.UserID},function(err,result){
+        if (err) throw err;
+        console.log("find parameter is " + req.params.UserID)
+        console.log(result);
+        res.json(result);
+
+})
+});
 /*db.dropCollection("users", function(err, result){ 
     assert.equal(err,null); 
     db.close(); 
  }); */
 
-module.exports = userRouter;
+module.exports = usersRouter;
