@@ -35,5 +35,15 @@ HobbyRouter.route('/')
       });
 
 })
+HobbyRouter.route('/:HobName')
+.get(function(req ,res,next){
+    db.collection('Hobbies').findOne({'Hobby.Name':req.params.HobName},function(err,result){
+        if (err) throw err;
+        console.log("find parameter is " + req.params.HobName)
+        console.log(result);
+        res.json(result);
+    })
+})
+
 
 module.exports = HobbyRouter;

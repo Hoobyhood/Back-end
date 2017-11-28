@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Hobbies = require('./Hobby.js');
+var Events = require('./Event.js');
 
 
 var userSchema = new Schema({
@@ -12,7 +13,8 @@ var userSchema = new Schema({
 
     },
     password:{
-        type:String
+        type:String,
+        required : true
     },
     email:{
         type:String,
@@ -24,8 +26,8 @@ var userSchema = new Schema({
     } ,
     Rating :{
         type: Number,
-        default : 5,
-        max : 10
+        default : 3,
+        max : 5
 
     },
     Credit: {
@@ -37,7 +39,9 @@ var userSchema = new Schema({
         contentType : String
     },
 
-    Hobbies :[{type: Schema.Types.ObjectId , ref : 'Hobbies'} ] 
+    Hobbies :[{type: Schema.Types.ObjectId , ref : 'Hobbies'} ] ,
+    Events : [{type: Schema.Types.ObjectId , ref : 'Events'}],
+    
     
 });
 

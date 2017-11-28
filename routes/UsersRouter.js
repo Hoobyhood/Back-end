@@ -41,28 +41,31 @@ usersRouter.route('/')
 
 })
 .delete(function(req,res,next) {
-    console.log('delete is choosed');
-    db.collection('Users').deleteOne({username:req.body.username}, function(err, result){
+    console.log('delete was choosed');
+    db.collection('Users').remove({"USER.username":req.body.username}, function(err, result){
+        if (err) throw err;
         assert.equal(err, null); 
         console.log("Removed the document " + req.body.username);
+        res.json('Deleted the User')
     })
-
 
 });
 
 usersRouter.route('/:UserID' )
 .get(function(req , res,next ){
-    db.collection('Users').find({username:req.params.UserID},function(err,result){
+    db.collection('Users').find({'USER.username':req.params.UserID}).toArray(function(err,result){
         if (err) throw err;
         console.log("find parameter is " + req.params.UserID)
-        //console.log(result);
+        console.log(result);
         res.json(result);
 
 })
 });
+
 /*db.dropCollection("users", function(err, result){ 
     assert.equal(err,null); 
-    db.close(); 
+    
  }); */
+ db.close(); 
 
 module.exports = usersRouter;
