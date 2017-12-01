@@ -11,7 +11,7 @@ var userSchema = new Schema({
         unique:true,
         required:true
 
-    },
+    }, 
     password:{
         type:String,
         required : true
@@ -24,7 +24,7 @@ var userSchema = new Schema({
     Phone:{
         type : String
     },
-    Age :{
+    DateOfBirth :{
         type : Date
     } ,
     Rating :{

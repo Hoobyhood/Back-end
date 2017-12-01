@@ -8,11 +8,21 @@ var Hobbies = require('./Hobby.js');
 var EventSchema = new Schema (
     {
         _id : Schema.Types.ObjectId,
-        Name : String,
+        Name : 
+        {
+            type : String
+        },
         Admin : {type: Schema.Types.ObjectId , ref : 'Users'},
         specification : {type: Schema.Types.ObjectId , ref : 'Hobbies'},      
-        Location : String,
-        Date : Date ,
+        Location : {
+            type : String
+        },
+        Start_Date :{
+            type :Date
+        },
+        End_Date :{
+            type :Date
+        },
         Rating : {
             rate : Number, 
             user : {type: Schema.Types.ObjectId , ref : 'Users'},
@@ -20,8 +30,7 @@ var EventSchema = new Schema (
         },
         Gallery :{
             Images: [{
-                date : Buffer,
-                contentType : String
+                type : String
             }]
         }
 

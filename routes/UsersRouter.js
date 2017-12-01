@@ -27,11 +27,12 @@ usersRouter.route('/')
     console.log('post is posted');
     //res.json('Will add the Profile: ' + req.body.username + ' with details: ' + req.body.Age);
     var USER = new Users ({username:req.body.username ,password:req.body.password ,email:req.body.email
-         , Age:req.body.Age });
-         db.collection('Hobbies').findOne({'Hobby.Name':req.body.Hobbies},function(err,result){
+         , DateOfBirth:new Date (req.body.DateOfBirth) , Phone:req.body.phone , Gender: req.body.gender });
+         db.collection('Hobbies').findOne({'Hobby.Name':req.body.Hobbies},function(err,userHob){
             if (err) throw err;
-            console.log(result);
-        USER.Hobbies.push(result);
+            console.log(userHob);
+        USER.Hobbies.push(userHob);
+        USER.save();
     })
     
     console.log('Created USER');
