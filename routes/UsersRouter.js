@@ -14,7 +14,6 @@ usersRouter.route('/')
 
 .get(function (req, res, next) { 
     console.log('get is getted');
-    //res.json('Will send all the Profiles to you!');
     db.collection('Users').find({}).toArray(function(err,result){
         if (err) throw err;
         console.log(result);
@@ -27,8 +26,14 @@ usersRouter.route('/')
 .post(function (req, res, next) { 
     console.log('post is posted');
     //res.json('Will add the Profile: ' + req.body.username + ' with details: ' + req.body.Age);
-    var USER = new Users ({username:req.body.username ,password:req.body.password ,email:req.body.Email
-        ,Hobbies:req.body.Hobbies , Age:req.body.Age });
+    var USER = new Users ({username:req.body.username ,password:req.body.password ,email:req.body.email
+         , Age:req.body.Age });
+         db.collection('Hobbies').findOne({'Hobby.Name':req.body.Hobbies},function(err,result){
+            if (err) throw err;
+            console.log(result);
+        USER.Hobbies.push(result);
+    })
+    
     console.log('Created USER');
     console.log(USER);
     db.collection('Users').insertOne({USER}, function(err, result) {
@@ -53,19 +58,30 @@ usersRouter.route('/')
 
 usersRouter.route('/:UserID' )
 .get(function(req , res,next ){
-    db.collection('Users').find({'USER.username':req.params.UserID}).toArray(function(err,result){
+    db.collection('Users').find({'USER.username':req.params.UserID}).exec(function(err,result){
         if (err) throw err;
         console.log("find parameter is " + req.params.UserID)
         console.log(result);
         res.json(result);
 
 })
-});
+})
+/*.put(function(req, res, next){ 
 
+    db.collection('Users').update()
+
+    db.collection('Users').update({'USER.username':req.params.UserID}).toArray(function(err,result){
+        if (err) throw err;
+        console.log("find parameter is " + req.params.UserID)
+        console.log(result);
+    res.json(result); 
+    })
+});*/
 /*db.dropCollection("users", function(err, result){ 
     assert.equal(err,null); 
     
  }); */
+
  db.close(); 
 
 module.exports = usersRouter;

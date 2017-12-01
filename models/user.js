@@ -21,8 +21,11 @@ var userSchema = new Schema({
         unique:true,
         required:true
     },
+    Phone:{
+        type : String
+    },
     Age :{
-        type : Number
+        type : Date
     } ,
     Rating :{
         type: Number,
@@ -30,17 +33,21 @@ var userSchema = new Schema({
         max : 5
 
     },
+    Gender :{
+        type : String
+    },
     Credit: {
         type : Number,
         default : 0
     },
     Image : {
-        date : Buffer,
-        contentType : String
+        type : String,
+        default: "../public/images/martina_dimitrova.jpg"
     },
 
     Hobbies :[{type: Schema.Types.ObjectId , ref : 'Hobbies'} ] ,
     Events : [{type: Schema.Types.ObjectId , ref : 'Events'}],
+    Friends: [{type: Schema.Types.ObjectId , ref: 'Users' }]
     
     
 });
