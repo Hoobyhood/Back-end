@@ -45,7 +45,7 @@ var userSchema = new Schema({
         default: "../public/images/martina_dimitrova.jpg"
     },
 
-    Hobbies :[{type: Schema.Types.ObjectId , ref : 'Hobbies'} ] ,
+    Hobbies :[{type: Schema.Types.ObjectId , ref : 'Hobbies'}] ,
     Events : [{type: Schema.Types.ObjectId , ref : 'Events'}],
     Friends: [{type: Schema.Types.ObjectId , ref: 'Users' }]
     

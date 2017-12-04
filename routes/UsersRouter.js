@@ -20,38 +20,38 @@ usersRouter.route('/')
         res.json(result);
         
     });
-    
-    
     })
 .post(function (req, res, next) { 
     console.log('post is posted');
-    //res.json('Will add the Profile: ' + req.body.username + ' with details: ' + req.body.Age);
+    db.collection('Hobbies').findOne({'Hobby.Name':req.body.Hobbies},function(err,userHob){
+        if (err) throw err;
+        console.log(userHob);
     var USER = new Users ({username:req.body.username ,password:req.body.password ,email:req.body.email
-         , DateOfBirth:new Date (req.body.DateOfBirth) , Phone:req.body.phone , Gender: req.body.gender });
-         db.collection('Hobbies').findOne({'Hobby.Name':req.body.Hobbies},function(err,userHob){
-            if (err) throw err;
-            console.log(userHob);
-        USER.Hobbies.push(userHob);
+         , DateOfBirth:new Date (req.body.DateOfBirth) , Phone:req.body.phone , Gender: req.body.gender
+        , Hobbies : userHob });
+        console.log(req.body.Hobbies);
+        
         USER.save();
-    })
+        console.log(USER.Hobbies);
     
     console.log('Created USER');
-    console.log(USER);
     db.collection('Users').insertOne({USER}, function(err, result) {
+        if (err) throw err;
         assert.equal(err, null);
-        console.log("Inserted a newUser into the Users collection.");
-        res.json('added the newUser \n' + USER);
+        console.log("Inserted a newUser into the Users collection.\n" + USER);
         
-        
-      });
+      })
+        res.json(USER);
 
 })
+})
+
 .delete(function(req,res,next) {
     console.log('delete was choosed');
-    db.collection('Users').remove({"USER.username":req.body.username}, function(err, result){
+    db.collection('Users').remove({"USER.Gender":req.body.gender}, function(err, result){
         if (err) throw err;
         assert.equal(err, null); 
-        console.log("Removed the document " + req.body.username);
+        console.log("Removed the document " + req.body.gender);
         res.json('Deleted the User')
     })
 
@@ -59,7 +59,12 @@ usersRouter.route('/')
 
 usersRouter.route('/:UserID' )
 .get(function(req , res,next ){
-    db.collection('Users').find({'USER.username':req.params.UserID}).exec(function(err,result){
+    /*db.collection('Users').findOne({'USER.username':req.params.UserID}).populate('Hobbies')
+    .exec(function(err,result){
+        if (err) throw err;
+        console.log('th hobbies are %s',USER.Hobbies[0].Name)
+    })*/
+    db.collection('Users').findOne({'USER.username':req.params.UserID} ,function(err,result){
         if (err) throw err;
         console.log("find parameter is " + req.params.UserID)
         console.log(result);
@@ -67,17 +72,16 @@ usersRouter.route('/:UserID' )
 
 })
 })
-/*.put(function(req, res, next){ 
+.put(function(req, res, next){ 
 
-    db.collection('Users').update()
-
-    db.collection('Users').update({'USER.username':req.params.UserID}).toArray(function(err,result){
+    db.collection('Users').update({'USER.username':req.params.UserID} , {USER:{username:req.body.username ,password:req.body.password ,email:req.body.email
+        , DateOfBirth:new Date (req.body.DateOfBirth) , Phone:req.body.phone , Gender: req.body.gender}},
+    function(err,updated){
         if (err) throw err;
-        console.log("find parameter is " + req.params.UserID)
-        console.log(result);
-    res.json(result); 
+        console.log(updated);
+        res.json(updated); 
     })
-});*/
+});
 /*db.dropCollection("users", function(err, result){ 
     assert.equal(err,null); 
     
