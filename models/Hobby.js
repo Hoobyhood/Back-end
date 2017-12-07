@@ -7,8 +7,7 @@ var Users = require('./user.js');
 var HobbySchema = new Schema (
     {
         _id : Schema.Types.ObjectId,
-        Name : String,
-        
+        Name : String
     }
 ) 
 const Hobbies = mongoose.model('Hobby', HobbySchema);

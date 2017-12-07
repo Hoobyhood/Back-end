@@ -1,4 +1,5 @@
 var express = require('express');
+var passport = require('passport');
 var path = require('path'); 
 var morgan = require('morgan');
 var bodyParser =require('body-parser'); 
@@ -11,11 +12,14 @@ var routes = require('./routes/index');
 var UserRouter = require('./routes/UsersRouter');
 var HobbyRouter = require('./routes/HobbyRouter');
 var eventRouter = require('./routes/eventRouter');
+var session = require("express-session");
 var hostname = 'localhost'; 
 var port = 4000;
 var app = express();
+app.use(passport.initialize());
+app.use(passport.session());
 
-var url = 'mongodb://localhost/HB';
+var url = 'mongodb://localhost/FHB';
 mongoose.connect(url,{useMongoClient:true});
 var db = mongoose.connection; 
 db.on('error', console.error.bind(console, 'connection error:')); 
@@ -32,6 +36,8 @@ app.use('/Events', eventRouter);
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(cookieParser()); 
 app.use(express.static(path.join(__dirname, 'public'))); 
+
+
 
 
 
