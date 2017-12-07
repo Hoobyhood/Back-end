@@ -154,7 +154,7 @@ passport.use(new LocalStrategy(
       });
 
 usersRouter.route('/login')
-.post(passport.authenticate('local',{successRedirect:'/',failureRedirect:'/userlogin',}),
+.post(passport.authenticate('local',{successRedirect:'/',failureRedirect:'/users/login',}),
     function(req, res) {
         console.log('Logged INN');
     }
