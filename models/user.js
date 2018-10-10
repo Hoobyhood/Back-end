@@ -1,23 +1,100 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const Schema = mongoose.Schema;
 
-var schema = new Schema({
+//Create Schema
+const userSchema = new Schema({
+    firstname:{
+        type:String,
+        lowercase:true
+    },
 
-    email:{type:String,required:true,unique:true},
-    username:{type:String,required:true},
-    password:{type:String,required:true},
-    creation_dt:{type:Date,required:true},
+    lastname:{
+        type:String,
+        lowercase:true
+    },
 
+
+
+    phonenumber:{
+        type:String
+    },
+
+    gender:{
+        type:String,
+        enum:['male','female']
+    },
+
+    method: {
+        type: String,
+        enum: ['local', 'google', 'facebook'],
+        required: true
+    },
+
+    local: {
+        email: {
+            type: String,
+            lowercase: true
+        },
+        password: {
+            type: String
+        }
+    },
+
+    google: {
+        id: {
+            type: String
+        },
+        email: {
+            type: String,
+            lowercase: true
+        }
+    },
+
+    facebook: {
+        id: {
+            type: String
+        },
+        email: {
+            type: String,
+            lowercase: true
+        }
+    }
 });
 
 
-schema.statics.hashPassword = function hashPassword(password){
-    return bcrypt.hashSync(password,10);
+//hashing password
+userSchema.pre('save',async function (next) {
+  //modifiy this.password
+  try {
+    if (this.method !=='local'){
+        next();
+    }
+
+      const salt =await bcrypt.genSalt(10);
+      const passwordHash= await bcrypt.hash(this.local.password,salt)
+      
+      this.local.password = passwordHash;
+      next();
+      
+  } catch (error) {
+      next(error)
+  }
+    
+});
+
+userSchema.methods.isVaildPassword = async function(newPasswod){
+    try {
+        return await bcrypt.compare(newPasswod, this.local.password);
+    } catch (error) {
+        throw new Error(error);
+    }
 }
 
-schema.methods.isValid = function (hashpassword){
-    return bcrypt.compareSync(hashpassword,this.password);
-}
+//Create Model
+const User = mongoose.model('user',userSchema);
 
-module.exports =mongoose.model('User',schema);
+
+//Export Model
+module.exports = User;
+
